@@ -9,14 +9,13 @@ var main = function () {
 
 	// SOCKET IO .on
 	socket.on('user join', function(msg) {
-	//	var f = retrieveQuestion();
 		connectCount++;
 		users.push(new getUserName(msg));
 		TriviaViewModel.userList(users);
 	});
-
 	socket.on('game start', function(question) {
 		TriviaViewModel.question(question.question);
+		TriviaViewModel.startButton(false);
 	});
 	socket.on('get question id', function(question) {
 		//Pass the question id to ALL clients in order to correctly POST answer for
@@ -28,8 +27,11 @@ var main = function () {
 	// next question once everyone has answered
 	socket.on('user answers', function(msg) {
 		answeredCount++;
+		TriviaViewModel.userOutcome(" " + msg.correct);
 		if(answeredCount == connectCount) {
 			answeredCount = 0;
+			TriviaViewModel.updateQuestion();
+			TriviaViewModel.submitButton(true);
 		}
 	});
 
@@ -44,14 +46,29 @@ var main = function () {
 		userName: ko.observable(""),
 		userList: ko.observableArray([]),
 		question: ko.observable(""),
+		userAnswer: ko.observable(""),
+		userOutcome: ko.observable(""),
+		// rightScore: ko.observable("0"),
+		// wrongScore: ko.observable("0"),
+		joinButton: ko.observable(true),
+		startButton: ko.observable(true),
+		submitButton: ko.observable(true),
 		updateUsers: function() {
+			TriviaViewModel.joinButton(false);
 			socket.emit('user join', TriviaViewModel.userName());
 		},
 		updateQuestion: function() {
 			retrieveQuestion();
+		},
+		updateAnswer: function() {
+			retrieveAnswerOutcome();
 		}
+		// updateScore: function() {
+		// 	retrieveScore();
+		// }
 	};
-	//self method copied from knockout tutorial of collections,
+
+	//Self method copied from knockout tutorial of collections,
 	// helps with scope issues
 	function getUserName(userName) {
 		var self = this;
@@ -59,7 +76,7 @@ var main = function () {
 	}
 
 	// GET a question obj from the server
-	//  -change view model and emit the object in order for all clients to get
+	//  -emit the object in order for all clients to get
 	//  the current question id
 	function retrieveQuestion() {
 		$.ajax({
@@ -79,30 +96,29 @@ var main = function () {
 	};
 
 	// Get the score and emit to all users
-	function getScore() {
+	function retrieveScore() {
 		$.ajax({
 			type: 'GET',
 			url: url + '/score',
 			contentType: 'application/json',
 			dataType: 'json',
-			data: scoreObj,
-			success: function(scoreObj) {
-				socket.emit('user scores', scoreObj);
+			data: score,
+			success: function(score) {
+				socket.emit('user scores', score);
 			},
-			fail: function(scoreObj) {
+			fail: function(score) {
 				alert('failed to retrieve score');
 			}
 		});
 	}
-
-	// User submits an answer to a question & emits user's response
-	$('#answer').click(function() {
-		if($('#useranswer').val() == '' || null) {
-			alert("Enter an answer before submitting");
+	function retrieveAnswerOutcome() {
+		if(TriviaViewModel.userAnswer() == "") {
+			alert("Enter an answer before submitting!");
 		}
 		else {
-			qObj.question = $('#useranswer').val();
-
+			TriviaViewModel.submitButton(false);
+			qObj.question = TriviaViewModel.userAnswer();
+			console.log(qObj.question + qObj.id);
 			$.ajax({
 				type: 'POST',
 				url: url + '/answer',
@@ -110,11 +126,13 @@ var main = function () {
 				dataType: 'json',
 				data:	(JSON.stringify(qObj)),
 				success: function(response) {
+					console.log(response);
 					socket.emit('user answers', response);
 				}
 			});
 		}
-	});
+	}
+
 	ko.applyBindings(TriviaViewModel);
 };
 
