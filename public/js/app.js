@@ -9,12 +9,16 @@ var main = function () {
 
 	// SOCKET IO .on
 	socket.on('user join', function(msg) {
+	//	var f = retrieveQuestion();
 		connectCount++;
 		users.push(new getUserName(msg));
 		TriviaViewModel.userList(users);
 	});
 
-	socket.on('game start', function(question){
+	socket.on('game start', function(question) {
+		TriviaViewModel.question(question.question);
+	});
+	socket.on('get question id', function(question) {
 		//Pass the question id to ALL clients in order to correctly POST answer for
 		// each connected client
 		qObj.id = question.answerid;
@@ -22,11 +26,10 @@ var main = function () {
 
 	// Keep track of the amount of connected users who answer in order to find the
 	// next question once everyone has answered
-	socket.on('user answers', function(msg){
+	socket.on('user answers', function(msg) {
 		answeredCount++;
 		if(answeredCount == connectCount) {
 			answeredCount = 0;
-			getQuestion();
 		}
 	});
 
@@ -43,6 +46,9 @@ var main = function () {
 		question: ko.observable(""),
 		updateUsers: function() {
 			socket.emit('user join', TriviaViewModel.userName());
+		},
+		updateQuestion: function() {
+			retrieveQuestion();
 		}
 	};
 	//self method copied from knockout tutorial of collections,
@@ -52,8 +58,10 @@ var main = function () {
 		self.userName = userName;
 	}
 
-	// GET a question & if succesful emit it to all users
-	function getQuestion() {
+	// GET a question obj from the server
+	//  -change view model and emit the object in order for all clients to get
+	//  the current question id
+	function retrieveQuestion() {
 		$.ajax({
 			type: 'GET',
 			url: url + '/question',
@@ -61,6 +69,7 @@ var main = function () {
 			dataType: 'json',
 			data:	question,
 			success: function(question) {
+				socket.emit('get question id', question);
 				socket.emit('game start', question);
 			},
 			fail: function(question) {
@@ -68,7 +77,6 @@ var main = function () {
 			}
 		});
 	};
-
 
 	// Get the score and emit to all users
 	function getScore() {
@@ -86,22 +94,6 @@ var main = function () {
 			}
 		});
 	}
-
-	// Get user name and emit that a user joined the game
-	// $('#join').click(function() {
-	// 	if($('#username').val() != '') {
-	// 		var $userName = $('#username').val();
-	// 	//	socket.emit('user join', $userName);
-	// 	}
-	// 	else alert("Enter username first");
-	//   return false;
-	// });
-
-	//Start the game - only clicked once for each user who joins the competition
-	$('#start-button').click(function() {
-		//ko.applyBindings(new StartVM());
-		getQuestion();
-	});
 
 	// User submits an answer to a question & emits user's response
 	$('#answer').click(function() {

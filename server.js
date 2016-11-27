@@ -65,6 +65,9 @@ io.on('connection', function(socket){
   socket.on('user scores', function(scoreObj) {
     io.emit('user scores', scoreObj);
   });
+  socket.on('get question id', function(answerId) {
+    io.emit('get question id', answerId);
+  });
 });
 
 // Listen @ localhost:3000
