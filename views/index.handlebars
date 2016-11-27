@@ -1,0 +1,36 @@
+<h2 class="page-header">Trivia Dashboard</h2>
+<form method="post" action="/trivia/question")>
+  <div class="form-group">
+    <label>Question</label>
+    <input type="text" class="form-control" name="question"
+    placeholder="Question">
+  </div>
+  <div class="form-group">
+    <label>Answer</label>
+    <input type="text" class="form-control" name="answer"
+    placeholder="Answer">
+  </div>
+  <button type="submit" class="btn btn-default">Post Question/Answer</button>
+</form>
+
+<form method="post" action="/trivia/answer")>
+  <div class="form-group">
+    <label>Answer Id</label>
+    <input type="text" class="form-control" name="answerid"
+    placeholder="Answer Id">
+  </div>
+  <div class="form-group">
+    <label>Answer</label>
+    <input type="text" class="form-control" name="useranswer"
+    placeholder="Answer">
+  </div>
+  <button type="submit" class="btn btn-default">Post Answer ID/Answer</button>
+</form>
+
+<form method="get" action="/trivia/question")>
+  <label>Get a Random Question</label>
+  <button type="submit" class="btn btn-default">Get A Question</button>
+</form>
+<form method="get" action="/trivia/score")>
+  <button type="submit" class="btn btn-default">Get Score</button>
+</form>

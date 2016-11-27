@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Trivia</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="./js/app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="./css/styles.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+    <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
+  </head>
+  <body>
+
+  <header>
+    <div class="ui huge header center aligned violet segment" id="header">
+      <h1>Trivia Game<h/1>
+    </div>
+	</header>
+
+  <div class="main">
+    <div class="username-container">
+      <div class="ui raised very padded fluid text container segment">
+        <div class="ui left icon huge input focus" id="user-input">
+          <input type="text" placeholder="Pick A Username" id="username"
+            data-bind="value: userName" autofocus/>
+          <i class="user icon">
+          </i>
+        </div>
+        <div class="ui circular huge primary button" id="join"
+        data-bind="click: updateUsers">
+        Join Competition
+        </div>
+      </div>
+    </div>
+
+<!-- Active Players Start -->
+	<div class="ui segments">
+  		<div class="ui center aligned segment">
+  			<h2>Current Active Players</h2>
+  			<div class="ui segments">
+    			<div class="ui center aligned segment" data-bind="foreach: userList">
+            <p><span data-bind="text: userName"></span></p>
+    			</div>
+    		</div>
+  		</div>
+  	</div>
+<!--   	Active Players End -->
+
+		<div class="ui raised very padded text fluid container segment center aligned">
+      <div class="ui medium header" id="question-container">
+        <h2>Question</h2>
+        <p id="question"><span data-bind="text: question"></span></p>
+		    <div class="ui circular huge red button" id="start-button">
+        START
+        </div>
+      </div>
+		</div>
+    	<div class="ui raised very padded fluid container segment">
+        <div class="ui input" id="answer-container">
+          <input type="text" placeholder="Answer" id="useranswer">
+				  <div class="ui secondary red button" id="answer">
+          <!-- data-bind="visible: showSubmitButton"> -->
+          Submit</div>
+        </div>
+      </div>
+  <div class="ui fluid segment" id="user-score">
+    <p>Right:</p><p id="right"></p><p>Wrong:</p><p id="wrong"></p>
+  </div>
+
+</div>
+
+</body>
+</html>

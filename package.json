@@ -1,0 +1,21 @@
+{
+  "name": "473-assign4",
+  "version": "1.0.0",
+  "description": "Assignment 4 for 473",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bryan Bonner & Patrick Ryan",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "express-validator": "^2.21.0",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.5",
+    "path": "^0.12.7",
+    "redis": "^2.6.3",
+    "socket.io": "^1.5.1"
+  }
+}
