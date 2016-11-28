@@ -88,7 +88,7 @@ router.get('/score', jsonParser, function(req, res) {
 		if (err) {
 			console.log('Redis error: ' + err);
 		} else {
-			res.json({'score': reply});
+      res.json({'score': reply});
 		}
 	});
 });

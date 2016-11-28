@@ -30,14 +30,15 @@ var main = function () {
 		TriviaViewModel.userOutcome(" " + msg.correct);
 		if(answeredCount == connectCount) {
 			answeredCount = 0;
+			retrieveScore();
 			TriviaViewModel.updateQuestion();
 			TriviaViewModel.submitButton(true);
 		}
 	});
 
 	socket.on('user scores', function(scoreObj) {
-		$('#user-score').empty();
-		$('#user-score').append($('<p>').text('Correct, Incorrect Score: ' + scoreObj['score']));
+		TriviaViewModel.rightScore(scoreObj.score[0]);
+		TriviaViewModel.wrongScore(scoreObj.score[1]);
 	});
 	// END SOCKET IO
 
@@ -48,8 +49,8 @@ var main = function () {
 		question: ko.observable(""),
 		userAnswer: ko.observable(""),
 		userOutcome: ko.observable(""),
-		// rightScore: ko.observable("0"),
-		// wrongScore: ko.observable("0"),
+		rightScore: ko.observable("0"),
+		wrongScore: ko.observable("0"),
 		joinButton: ko.observable(true),
 		startButton: ko.observable(true),
 		submitButton: ko.observable(true),
@@ -63,13 +64,10 @@ var main = function () {
 		updateAnswer: function() {
 			retrieveAnswerOutcome();
 		}
-		// updateScore: function() {
-		// 	retrieveScore();
-		// }
 	};
 
-	//Self method copied from knockout tutorial of collections,
-	// helps with scope issues
+	//Self method copied from the Knockout tutorial of collections,
+	// helps with scope issues is my understanding
 	function getUserName(userName) {
 		var self = this;
 		self.userName = userName;
@@ -111,6 +109,10 @@ var main = function () {
 			}
 		});
 	}
+
+	//Post user answer to the server with a reply of incorrect or correct
+	// then update the view model and hide the submit button until all users
+	//   have answered
 	function retrieveAnswerOutcome() {
 		if(TriviaViewModel.userAnswer() == "") {
 			alert("Enter an answer before submitting!");
@@ -118,7 +120,6 @@ var main = function () {
 		else {
 			TriviaViewModel.submitButton(false);
 			qObj.question = TriviaViewModel.userAnswer();
-			console.log(qObj.question + qObj.id);
 			$.ajax({
 				type: 'POST',
 				url: url + '/answer',
@@ -126,13 +127,11 @@ var main = function () {
 				dataType: 'json',
 				data:	(JSON.stringify(qObj)),
 				success: function(response) {
-					console.log(response);
 					socket.emit('user answers', response);
 				}
 			});
 		}
 	}
-
 	ko.applyBindings(TriviaViewModel);
 };
 
