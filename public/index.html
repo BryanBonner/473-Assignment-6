@@ -42,7 +42,7 @@
   			<h2>Current Active Players</h2>
   			<div class="ui segments">
     			<div class="ui center aligned segment" data-bind="foreach: userList">
-            <p><span data-bind="text: userName"></span></p>
+            <p id="users"><span data-bind="text: userName"></span></p>
     			</div>
     		</div>
   		</div>
@@ -71,7 +71,7 @@
       <div class="ui raised very padded text fluid container segment center aligned">
         <div class="ui medium header" id="question-container">
           <h2>Results</h2>
-          <p>Last User Outcome:<span data-bind="text: userOutcome"></span></p>
+          <p>Last User Outcome:<span id="outcome" data-bind="text: userOutcome"></span></p>
           <h2>Score</h2>
           <p>Total Right:<span data-bind="text: rightScore"></span></p><p>Total Wrong:<span data-bind="text: wrongScore"></span></p>
         </div>
