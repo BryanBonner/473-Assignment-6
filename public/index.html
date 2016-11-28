@@ -29,7 +29,7 @@
           <i class="user icon">
           </i>
         </div>
-        <div class="ui circular huge primary button" id="join"
+        <div class="ui circular large primary button" id="join"
         data-bind="click: updateUsers, visible: joinButton">
         Join Competition
         </div>
@@ -53,16 +53,16 @@
       <div class="ui medium header" id="question-container">
         <h2>Question</h2>
         <p id="question"><span data-bind="text: question"></span></p>
-		    <div class="ui circular huge red button" id="start-button"
+		    <div class="ui circular large red button" id="start-button"
           data-bind="click: updateQuestion, visible: startButton">
         START
         </div>
       </div>
 		</div>
     	<div class="ui raised very padded fluid container segment">
-        <div class="ui input" id="answer-container">
+        <div class="ui huge input" id="answer-container">
           <input type="text" placeholder="Answer" id="useranswer" data-bind="value: userAnswer">
-				  <div class="ui secondary red button" id="answer" data-bind="click: updateAnswer, visible: submitButton">
+				  <div class="ui secondary circular large red button" id="answer" data-bind="click: updateAnswer, visible: submitButton">
           Submit
           </div>
         </div>

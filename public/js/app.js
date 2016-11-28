@@ -117,6 +117,12 @@ var main = function () {
 		if(TriviaViewModel.userAnswer() == "") {
 			alert("Enter an answer before submitting!");
 		}
+		else if(TriviaViewModel.userList() == "") {
+			alert("There are no active players, join competition first!");
+		}
+		else if(qObj.question == null && qObj.id == null) {
+			alert("Start the game first");
+		}
 		else {
 			TriviaViewModel.submitButton(false);
 			qObj.question = TriviaViewModel.userAnswer();
