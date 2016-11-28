@@ -13,51 +13,51 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.1/knockout-min.js"></script>
   </head>
   <body>
-  <header>
-    <div class="ui huge header center aligned segment" id="header">
-      <h1>Trivia Game</h1>
-    </div>
-	</header>
-  <div class="main">
-    <div class="container">
-      <div class="ui raised very padded fluid text container segment">
-        <div class="ui left icon huge input focus" id="user-input">
-          <input type="text" placeholder="Pick A Username" id="username"
-            data-bind="value: userName" autofocus/>
-          <i class="user icon">
-          </i>
-        </div>
-        <div class="ui circular large primary button" id="join"
-        data-bind="click: updateUsers, visible: joinButton">
-        Join Competition
+    <header>
+      <div class="ui huge header center aligned segment" id="header">
+        <h1>Trivia Game</h1>
+      </div>
+    </header>
+    <div class="main">
+      <div class="container">
+        <div class="ui raised very padded fluid text container segment">
+          <div class="ui left icon huge input focus" id="user-input">
+            <input type="text" placeholder="Pick A Username" id="username"
+              data-bind="value: userName" autofocus/>
+            <i class="user icon">
+            </i>
+          </div>
+          <div class="ui circular large primary button" id="join"
+            data-bind="click: updateUsers, visible: joinButton">
+            Join Competition
+          </div>
         </div>
       </div>
-    </div>
-    <div class="ui segments">
-  		<div class="ui center aligned segment">
-  			<h2>Current Active Players</h2>
-  			<div class="ui segments">
-    			<div class="ui center aligned segment" data-bind="foreach: userList">
-            <p id="users"><span data-bind="text: userName"></span></p>
-    			</div>
-    		</div>
-  		</div>
-  	</div>
-		<div class="ui raised very padded text fluid container segment center aligned">
-      <div class="ui medium header">
-        <h2>Question</h2>
-        <p id="question"><span data-bind="text: question"></span></p>
-		    <div class="ui circular large red button" id="start-button"
-          data-bind="click: updateQuestion, visible: startButton">
-        START
+      <div class="ui segments">
+        <div class="ui center aligned segment">
+          <h2>Current Active Players</h2>
+          <div class="ui segments">
+            <div class="ui center aligned segment" data-bind="foreach: userList">
+              <p id="users"><span data-bind="text: userName"></span></p>
+            </div>
+          </div>
         </div>
       </div>
-		</div>
-    	<div class="ui raised very padded fluid container segment">
+      <div class="ui raised very padded text fluid container segment center aligned">
+        <div class="ui medium header">
+          <h2>Question</h2>
+          <p id="question"><span data-bind="text: question"></span></p>
+          <div class="ui circular large red button" id="start-button"
+            data-bind="click: updateQuestion, visible: startButton">
+            START
+          </div>
+        </div>
+      </div>
+      <div class="ui raised very padded fluid container segment">
         <div class="ui huge input" id="answer-container">
           <input type="text" placeholder="Answer" id="useranswer" data-bind="value: userAnswer">
           <div class="ui secondary circular large red button" id="answer" data-bind="click: updateAnswer, visible: submitButton">
-          Submit
+            Submit
           </div>
         </div>
       </div>
@@ -66,9 +66,10 @@
           <h2>Results</h2>
           <p>Last User Outcome:<span id="outcome" data-bind="text: userOutcome"></span></p>
           <h2>Score</h2>
-          <p>Total Right:<span data-bind="text: rightScore"></span></p><p>Total Wrong:<span data-bind="text: wrongScore"></span></p>
+          <p>Total Right:<span data-bind="text: rightScore"></span></p>
+          <p>Total Wrong:<span data-bind="text: wrongScore"></span></p>
         </div>
       </div>
     </div>
-</body>
+  </body>
 </html>
